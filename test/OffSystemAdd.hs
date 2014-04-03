@@ -44,5 +44,42 @@ len12InM = (len1 .+ len2) # Meter
 -- The following expression does not typecheck,
 -- because the system is not designed to infer the dimension from the unit.
 -- 
--- len12InM' :: Double
--- len12InM' = (len2 .+ (3 % Foot)) # Meter
+len12InM' :: Double
+len12InM' = (len2 .+ (3 % Foot)) # Meter
+
+{-
+test/OffSystemAdd.hs:48:25:
+    Couldn't match type Data.Dimensions.DimSpec.Normalize
+                           (Data.Dimensions.DimSpec.Reorder
+                              '['Data.Dimensions.DimSpec.D Meter ('S 'Zero)]
+                              (Data.Dimensions.Units.Canonicalize
+                                 (Data.Dimensions.Map.LookupList
+                                    d20
+                                    ('Data.Dimensions.Map.MkM
+                                       '[(Data.Dimensions.SI.Dims.Length, Meter),
+                                         (Data.Dimensions.SI.Dims.Mass, Kilo :@ Gram),
+                                         (Data.Dimensions.SI.Dims.Time, Second),
+                                         (Data.Dimensions.SI.Dims.Current, Ampere),
+                                         (Data.Dimensions.SI.Dims.Temperature, Kelvin),
+                                         (Data.Dimensions.SI.Dims.Quantity, Mole),
+                                         (Data.Dimensions.SI.Dims.Luminosity, Lumen)]))))
+                  with Data.Dimensions.DimSpec.Normalize
+                          (Data.Dimensions.Units.Canonicalize
+                             (Data.Dimensions.Map.LookupList
+                                d20
+                                ('Data.Dimensions.Map.MkM
+                                   '[(Data.Dimensions.SI.Dims.Length, Meter),
+                                     (Data.Dimensions.SI.Dims.Mass, Kilo :@ Gram),
+                                     (Data.Dimensions.SI.Dims.Time, Second),
+                                     (Data.Dimensions.SI.Dims.Current, Ampere),
+                                     (Data.Dimensions.SI.Dims.Temperature, Kelvin),
+                                     (Data.Dimensions.SI.Dims.Quantity, Mole),
+                                     (Data.Dimensions.SI.Dims.Luminosity, Lumen)])))
+    NB: Data.Dimensions.DimSpec.Normalize is a type function, and may not be injective
+    The type variable d20 is ambiguous
+    In the second argument of (.+), namely (3 % Foot)
+    In the first argument of (#), namely (len2 .+ (3 % Foot))
+    In the expression: (len2 .+ (3 % Foot)) # Meter
+
+
+-}
