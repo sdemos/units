@@ -49,22 +49,6 @@ class Unit unit where
   -- Implementations should /never/ examine their argument!       
   conversionRatio :: Fractional f => unit -> f
 
-{- COMCANO
-  -- | The internal list of canonical units corresponding to this unit.
-  type UnitSpecsOf unit :: [DimSpec *]
-  type UnitSpecsOf unit = If (IsCanonical unit)
-                            '[D unit One]
-                            (UnitSpecsOf (BaseUnit unit))
-
-  -- | Compute the conversion from the underlying canonical unit to
-  -- this one. A default is provided that multiplies together the ratios
-  -- of all units between this one and the canonical one.
-  canonicalConvRatio :: Fractional f => unit -> f
-  default canonicalConvRatio :: (BaseHasConvRatio unit, Fractional f)
-                             => unit -> f
-  canonicalConvRatio u = conversionRatio u * baseUnitRatio u
--}
-
 
 -- Abbreviation for creating a Dim (defined here to avoid a module cycle)
 
@@ -79,56 +63,6 @@ type MkGenDim dim lcsu n = Dim (DimSpecsOf dim) lcsu n
 
 
 
--- The functions related to canonical units are temporallily commented out.
-
---  -- | Is this unit a canonical unit?
---  type IsCanonical (unit :: *) = CheckCanonical (BaseUnit unit)
---  
---  -- | Is the argument the special datatype 'Canonical'?
---  type family CheckCanonical (base_unit :: *) :: Bool where
---    CheckCanonical Canonical = True
---    CheckCanonical unit      = False
---  
---  
---  {- I want to say this. But type families are *eager* so I have to write
---     it another way.
---  type family CanonicalUnit (unit :: *) where
---    CanonicalUnit unit
---      = If (IsCanonical unit) unit (CanonicalUnit (BaseUnit unit))
---  -}
---  
---  
---  
---  
---  -- | Get the canonical unit from a given unit.
---  -- For example: @CanonicalUnit Foot = Meter@
---  type CanonicalUnit (unit :: *) = CanonicalUnit' (BaseUnit unit) unit
---  
---  -- | Helper function in 'CanonicalUnit'
---  type family CanonicalUnit' (base_unit :: *) (unit :: *) :: * where
---    CanonicalUnit' Canonical unit = unit
---    CanonicalUnit' base      unit = CanonicalUnit' (BaseUnit base) base
---  
---  -- | Essentially, a constraint that checks if a conversion ratio can be
---  -- calculated for a @BaseUnit@ of a unit.
---  type BaseHasConvRatio unit = HasConvRatio (IsCanonical unit) unit
---  
---  -- | This is like 'Unit', but deals with 'Canonical'. It is necessary
---  -- to be able to define 'canonicalConvRatio' in the right way.
---  class is_canonical ~ IsCanonical unit
---        => HasConvRatio (is_canonical :: Bool) (unit :: *) where
---    baseUnitRatio :: Fractional f => unit -> f
---  instance True ~ IsCanonical canonical_unit
---           => HasConvRatio True canonical_unit where
---    baseUnitRatio _ = 1
---  instance ( False ~ IsCanonical noncanonical_unit
---           , Unit (BaseUnit noncanonical_unit) )
---           => HasConvRatio False noncanonical_unit where
---    baseUnitRatio _ = canonicalConvRatio (undefined :: BaseUnit noncanonical_unit)
- 
-
--- | Calculates the conversion factor of @[DimSpec *]@s representing /units/ to the
--- global coherent system of units.
 
 class UnitSpec (units :: [DimSpec *]) where
   conversionRatioSpec :: Fractional f => Proxy units -> f
@@ -140,17 +74,3 @@ instance (UnitSpec rest, Unit unit, SingI n) => UnitSpec (D unit n ': rest) wher
   conversionRatioSpec _ =
     (conversionRatio (undefined :: unit) ^^ szToInt (sing :: Sing n)) *
      conversionRatioSpec (Proxy :: Proxy rest)
---  
---  infix 4 *~
---  -- | Check if two @[DimSpec *]@s, representing /units/, should be
---  -- considered to be equal
---  type units1 *~ units2 = (Canonicalize units1 @~ Canonicalize units2)
-
---  
---  type family Canonicalize (units :: [DimSpec *]) :: [DimSpec *] where
---    Canonicalize '[] = '[]
---    Canonicalize (D unit n ': rest) = D (CanonicalUnit unit) n ': Canonicalize rest
---  
---  type Compatible (dim :: *) (lcsu :: Map *) (unit :: *) =
---    ( CanonicalUnit (Lookup dim lcsu) ~ CanonicalUnit unit
---    , Unit (Lookup dim lcsu))
