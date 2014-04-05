@@ -19,7 +19,6 @@ import Data.Dimensions.SI.Base
 import Data.Dimensions.SI.Units
 import Data.Dimensions.SI.Prefixes ( Kilo )
 import qualified Data.Dimensions.SI.Dims as D
-import qualified Data.Dimensions.SI.Base as D
 
 -- defined here to avoid a module dependency
 type SI = MkLCSU '[ (D.Length, Meter)

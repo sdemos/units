@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE DataKinds, TypeFamilies, TypeOperators #-}
 
 -----------------------------------------------------------------------------
 -- |
@@ -15,7 +15,38 @@
 module Data.Dimensions.SI.Dims where
 
 import Data.Dimensions
-import Data.Dimensions.SI.Base
+import Data.Dimensions.DimSpec
+import Data.Dimensions.Units
+import Data.Dimensions.Z
+
+data Length = Length
+instance Dimension Length where
+  type DimSpecsOf Length = '[ D Length One ]
+
+data Mass = Mass
+instance Dimension Mass where
+  type DimSpecsOf Mass = '[ D Mass One ]
+
+data Time = Time
+instance Dimension Time where
+  type DimSpecsOf Time = '[ D Time One ]
+
+data Current = Current
+instance Dimension Current where
+  type DimSpecsOf Current = '[ D Current One ]
+
+data Temperature = Temperature
+instance Dimension Temperature where
+  type DimSpecsOf Temperature = '[ D Temperature One ]
+
+data AmountOfSubstance = AmountOfSubstance
+instance Dimension AmountOfSubstance where
+  type DimSpecsOf AmountOfSubstance = '[ D AmountOfSubstance One ]
+
+data LuminousIntensity = LuminousIntensity
+instance Dimension LuminousIntensity where
+  type DimSpecsOf LuminousIntensity = '[ D LuminousIntensity One ]
+
 
 type Area                = Length            :^ Two
 type Volume              = Length            :^ Three

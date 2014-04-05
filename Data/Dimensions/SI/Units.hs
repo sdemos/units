@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, TypeOperators, UndecidableInstances #-}
+{-# LANGUAGE DataKinds, TypeFamilies, TypeOperators, UndecidableInstances #-}
 
 -----------------------------------------------------------------------------
 -- |
@@ -19,9 +19,57 @@
 module Data.Dimensions.SI.Units where
 
 import Data.Dimensions
+import Data.Dimensions.DimSpec
 import Data.Dimensions.Units
-import Data.Dimensions.SI.Base
+import Data.Dimensions.SI.Dims
 import Data.Proxy
+
+data Meter = Meter
+instance Unit Meter where
+  type DimOfUnit Meter = '[D Length One ]
+  conversionRatio _ = 1
+instance Show Meter where
+  show _ = "m"
+
+data Gram = Gram
+instance Unit Gram where
+  type DimOfUnit Gram = '[D Mass One]
+  conversionRatio _ = 0.001
+instance Show Gram where
+  show _ = "g"
+
+data Second = Second
+instance Unit Second where
+  type DimOfUnit Second = '[D Time One]
+instance Show Second where
+  show _ = "s"
+
+data Ampere = Ampere
+instance Unit Ampere where
+  type DimOfUnit Ampere = '[D Current One]
+instance Show Ampere where
+  show _ = "A"
+
+data Kelvin = Kelvin
+instance Unit Kelvin where
+  type DimOfUnit Kelvin = '[D Temperature One]
+instance Show Kelvin where
+  show _ = "K"
+
+data Mole = Mole
+instance Unit Mole where
+  type DimOfUnit Mole = '[D AmountOfSubstance One]
+instance Show Mole where
+  show _ = "mol"
+
+data Candela = Candela
+instance Unit Candela where
+  type DimOfUnit Candela = '[D LuminousIntensity One]
+instance Show Candela where
+  show _ = "cd"
+
+
+
 
 data Hertz = Hertz
 instance Unit Hertz where
