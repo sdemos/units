@@ -26,7 +26,6 @@ data u1 :* u2 = u1 :* u2
 
 instance (Dimension d1, Dimension d2) => Dimension (d1 :* d2) where
   type DimSpecsOf (d1 :* d2) = (DimSpecsOf d1) @+ (DimSpecsOf d2)
-  type GlobalBaseUnit (d1 :* d2) = (GlobalBaseUnit d1) :* (GlobalBaseUnit d2)
     
 instance (Unit u1, Unit u2) => Unit (u1 :* u2) where
 
@@ -41,7 +40,6 @@ data u1 :/ u2 = u1 :/ u2
 
 instance (Dimension d1, Dimension d2) => Dimension (d1 :/ d2) where
   type DimSpecsOf (d1 :/ d2) = (DimSpecsOf d1) @- (DimSpecsOf d2)
-  type GlobalBaseUnit (d1 :/ d2) = (GlobalBaseUnit d1) :/ (GlobalBaseUnit d2)
 
 instance (Unit u1, Unit u2) => Unit (u1 :/ u2) where
   type DimOfUnit (u1 :/ u2) = (DimOfUnit u1) @- (DimOfUnit u2)
@@ -54,7 +52,6 @@ data unit :^ (power :: Z) = unit :^ Sing power
 
 instance Dimension dim => Dimension (dim :^ power) where
   type DimSpecsOf (dim :^ power) = (DimSpecsOf dim) @* power
-  type GlobalBaseUnit (dim :^ power) = (GlobalBaseUnit dim) :^ power
 
 instance (Unit unit, SingI power) => Unit (unit :^ power) where
   type DimOfUnit (unit :^ power) = (DimOfUnit unit) @* power

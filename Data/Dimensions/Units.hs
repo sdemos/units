@@ -26,12 +26,6 @@ import Data.Singletons
 class Dimension dim where
   -- | The representation of the dimension as producs of integer powers of the base dimensions.
   type DimSpecsOf dim :: [DimSpec *]
-  -- | A unit of this dimension that belongs to the global coherent system
-  -- of units. 
-  -- We use the global coherent system of units as the standard for unit conversion.
-  -- i.e. globally coherent units have conversion factors of 1.
-  type GlobalBaseUnit dim :: *
-  
 
 -- | Class of units. Make an instance of this class to define a new unit.
 class Unit unit where
@@ -39,17 +33,20 @@ class Unit unit where
   type DimOfUnit unit :: [DimSpec *]
 
   -- | The conversion ratio /from/ this unit /to/ the global coherent
-  -- unit of the same dimension.
-  -- If left out, a conversion ratio of 1 is assumed.
+  -- unit of the same dimension. The conversion ratio of a unit is never
+  -- used alone; the relative ratio between two units are only things that
+  -- matters. Therefore, the conversion ratio of a unit is usually defined
+  -- relative to that of other unit's conversion ratio (probably that of the global
+  -- coherent unit.)            
   --
   -- For example:
   --
   -- > instance Unit Foot where
   -- >   type DimOfUnit Foot = Length
-  -- >   conversionRatio _ = 0.3048 
+  -- >   conversionRatio _ = 0.3048 * conversionRatio Meter
   -- The global base unit of length is meter, and 1 Foot = 0.3048 meter. 
   --       
-  -- Implementations should /never/ examine their argument!
+  -- Implementations should /never/ examine their argument!       
   conversionRatio :: Fractional f => unit -> f
 
 {- COMCANO

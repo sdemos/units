@@ -23,37 +23,30 @@ import Data.Dimensions.SI.Prefixes (Kilo)
 data Length = Length
 instance Dimension Length where
   type DimSpecsOf Length = '[ D Length One ]
-  type GlobalBaseUnit Length = Meter
 
 data Mass = Mass
 instance Dimension Mass where
   type DimSpecsOf Mass = '[ D Mass One ]
-  type GlobalBaseUnit Mass = Kilo :@ Gram
 
 data Time = Time
 instance Dimension Time where
   type DimSpecsOf Time = '[ D Time One ]
-  type GlobalBaseUnit Time = Second
 
 data Current = Current
 instance Dimension Current where
   type DimSpecsOf Current = '[ D Current One ]
-  type GlobalBaseUnit Current = Ampere
 
 data Temperature = Temperature
 instance Dimension Temperature where
   type DimSpecsOf Temperature = '[ D Temperature One ]
-  type GlobalBaseUnit Temperature = Ampere
 
 data AmountOfSubstance = AmountOfSubstance
 instance Dimension AmountOfSubstance where
   type DimSpecsOf AmountOfSubstance = '[ D AmountOfSubstance One ]
-  type GlobalBaseUnit AmountOfSubstance = Mole
 
 data LuminousIntensity = LuminousIntensity
 instance Dimension LuminousIntensity where
   type DimSpecsOf LuminousIntensity = '[ D LuminousIntensity One ]
-  type GlobalBaseUnit LuminousIntensity = Candela
 
 data Meter = Meter
 instance Unit Meter where

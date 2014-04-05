@@ -159,7 +159,6 @@ dim (Dim x) = Dim x
 -- @One@ is confusing with the type-level integer One.
 data Dimensionless = Dimensionless
 instance Dimension Dimensionless where
-  type GlobalBaseUnit Dimensionless = Number
   type DimSpecsOf Dimensionless = '[]
 
 -- | The unit for unitless dimensioned quantities
