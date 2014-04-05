@@ -64,9 +64,9 @@ momentum :: MkDim Mass l
          -> MkDim Momentum l
 momentum m v = dim $ m .* v
 
-g_earth :: ( Compatible Time lcsu Second
-           , Compatible Length lcsu Meter )
-        => MkDim Acceleration lcsu
+g_earth ::( Unit (Lookup Length lcsu)
+           ,Unit (Lookup Time lcsu)
+            ) => MkDim Acceleration lcsu
 g_earth = 9.8 % (Meter :/ (Second :^ pTwo))
 
 distance :: MkDim Velocity lcsu
@@ -75,8 +75,8 @@ distance :: MkDim Velocity lcsu
          -> MkDim Length lcsu
 distance v a t = dim $ v .* t .+ (0.5 *. a .* t .* t)
 
-sum :: Num n => [Dim n dims l] -> Dim n dims l
+sum :: Num n => [Dim dims l n] -> Dim dims l n
 sum = foldr (.+) zero
 
-squareAll :: Fractional n => [Dim n dims l] -> [Dim n (dims @* Two) l]
+squareAll :: Fractional n => [Dim dims l n] -> [Dim (dims @* Two) l n]
 squareAll = map (.^ pTwo)
