@@ -16,13 +16,13 @@ import qualified Data.Dimensions.SI.Dims as D
 
 type PerArea = MkGenDim (D.Area :^ MOne)
 
-fromPUtoWH :: Length Imperial Double
-fromPUtoWH = 137 % Mile
+fromGLtoED :: Length Imperial Float
+fromGLtoED = 46.5 % Mile
 
-fuelEfficiency :: PerArea Imperial Double
+fuelEfficiency :: PerArea Imperial Float
 fuelEfficiency = 40 % (Mile :/ Gallon)
 
-gasolineDensity :: Density Imperial Double
+gasolineDensity :: Density Imperial Float
 gasolineDensity = 7.29 % (Pound :/ Gallon)
 
 gasolineWeight :: (Fractional f) 
@@ -32,14 +32,29 @@ gasolineWeight len0 ef0 den0 = len0 ./ ef0 .* den0
 
 main :: IO ()
 main = do
-  putStrLn $ fromPUtoWH `showIn` Mile
+  putStrLn $ fromGLtoED `showIn` Mile
   putStrLn $ fuelEfficiency `showIn` Mile :/ Gallon
   putStrLn $ gasolineDensity `showIn` Pound :/ Gallon
-  putStrLn $ show $ gasolineWeight fromPUtoWH fuelEfficiency gasolineDensity 
+  putStrLn $ show $ gasolineWeight fromGLtoED fuelEfficiency gasolineDensity 
 
-  putStrLn $ fromPUtoWH `showIn` (kilo Meter)
+  putStrLn ""
+  putStrLn $ fromGLtoED `showIn` (kilo Meter)
   putStrLn $ fuelEfficiency `showIn`  kilo Meter :/ Liter
   putStrLn $ gasolineDensity `showIn` kilo Gram :/ Liter
   putStrLn $ show $ (gasolineWeight 
-    (convert fromPUtoWH) (convert fuelEfficiency) (convert gasolineDensity) :: Mass SI Double)
+    (convert fromGLtoED) (convert fuelEfficiency) (convert gasolineDensity) :: Mass SI Float)
 
+{---- Execution result ---
+
+46.5 mi
+39.999996 mi/gal
+7.29 lb/gal
+8.474626 lb
+
+74.834496 km
+14.160248 km/l
+0.7273698 kg/l
+3.8440251 kg
+
+
+-}
