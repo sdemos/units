@@ -38,13 +38,6 @@ library
                       Data.Dimensions.SI, Data.Dimensions.SI.Prefixes,
                       Data.Dimensions.SI.Types, Data.Dimensions.SI.Units
 
-                      Data.Quantity.System
-                      Data.Quantity.System.SI
-                      Data.Quantity.Map
-                      Data.Quantity.Quantity
-                      Data.Quantity.Zahl
-
-
   other-modules:      Data.Dimensions.Dim, Data.Dimensions.DimSpec,
                       Data.Dimensions.Units, Data.Dimensions.UnitCombinators,
                       Data.Dimensions.Z
