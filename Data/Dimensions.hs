@@ -54,7 +54,7 @@ module Data.Dimensions (
   (.+), (.-), (.*), (./), (.^), (*.),
   (.<), (.>), (.<=), (.>=), dimEq, dimNeq,
   nthRoot, dimSqrt, dimCubeRoot,
-  unity, zero, dim,
+  unity, zero, dim, convert,
   dimIn, (#), dimOf, (%),
 
   -- * Type-level unit combinators
@@ -151,6 +151,17 @@ zero = Dim 0
 -- | Dimension-safe cast. See the README for more info.
 dim :: (d @~ e) => Dim d l n -> Dim e l n
 dim (Dim x) = Dim x
+
+-- | Dimension-safe cast between different CSUs.
+convert :: forall d l1 l2 n. 
+  ( UnitSpec (LookupList d l1)
+  , UnitSpec (LookupList d l2)  
+  , Fractional n) 
+  => Dim d l1 n -> Dim d l2 n
+convert (Dim x) = Dim $ x * fromRational (
+  conversionRatioSpec (Proxy :: Proxy (LookupList d l1))
+  / conversionRatioSpec (Proxy :: Proxy (LookupList d l2)))
+
 
 -------------------------------------------------------------
 --- "Number" unit -------------------------------------------

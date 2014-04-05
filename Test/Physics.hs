@@ -80,3 +80,26 @@ sum = foldr (.+) zero
 
 squareAll :: Fractional n => [Dim dims l n] -> [Dim (dims @* Two) l n]
 squareAll = map (.^ pTwo)
+
+
+{-
+
+Try the following:
+
+> kinetic_energy siMass siVel  .+ kinetic_energy cgsMass cgsVel 
+
+<interactive>:13:51:
+    Couldn't match type `Centi :@ Meter' with `Meter'
+    Expected type: MkDim Mass SI
+      Actual type: MkDim Mass CGS
+    In the first argument of `kinetic_energy', namely `cgsMass'
+    In the second argument of `(.+)', namely
+      `(kinetic_energy cgsMass cgsVel)'
+> 
+> 
+> (kinetic_energy siMass siVel) .+ convert (kinetic_energy cgsMass cgsVel) 
+4.0 (kg * m^2)/s^2
+> convert (kinetic_energy siMass siVel) .+ (kinetic_energy cgsMass cgsVel) 
+4.0e7 (cm^2 * g)/s^2
+
+-}

@@ -59,7 +59,7 @@ class Unit unit where
 type MkDim dim lcsu = Dim (DimSpecsOf dim) lcsu Double
 
 -- | Make a dimensioned quantity with a custom numerical type.
-type MkGenDim dim lcsu n = Dim (DimSpecsOf dim) lcsu n
+type MkGenDim dim = Dim (DimSpecsOf dim)
 
 
 

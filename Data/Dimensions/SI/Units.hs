@@ -41,30 +41,35 @@ instance Show Gram where
 data Second = Second
 instance Unit Second where
   type DimOfUnit Second = '[D Time One]
+  conversionRatio _ = 1  
 instance Show Second where
   show _ = "s"
 
 data Ampere = Ampere
 instance Unit Ampere where
   type DimOfUnit Ampere = '[D Current One]
+  conversionRatio _ = 1    
 instance Show Ampere where
   show _ = "A"
 
 data Kelvin = Kelvin
 instance Unit Kelvin where
   type DimOfUnit Kelvin = '[D Temperature One]
+  conversionRatio _ = 1    
 instance Show Kelvin where
   show _ = "K"
 
 data Mole = Mole
 instance Unit Mole where
   type DimOfUnit Mole = '[D AmountOfSubstance One]
+  conversionRatio _ = 1    
 instance Show Mole where
   show _ = "mol"
 
 data Candela = Candela
 instance Unit Candela where
   type DimOfUnit Candela = '[D LuminousIntensity One]
+  conversionRatio _ = 1  
 instance Show Candela where
   show _ = "cd"
 
