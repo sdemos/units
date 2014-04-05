@@ -15,7 +15,6 @@
 module Data.Dimensions.SI.Types where
 
 import Data.Dimensions
-import Data.Dimensions.SI.Base
 import Data.Dimensions.SI.Units
 import Data.Dimensions.SI.Prefixes ( Kilo )
 import qualified Data.Dimensions.SI.Dims as D

@@ -18,13 +18,11 @@
 -----------------------------------------------------------------------------
 
 module Data.Dimensions.SI (
-  module Data.Dimensions.SI.Base,
   module Data.Dimensions.SI.Units,
   module Data.Dimensions.SI.Types,
   module Data.Dimensions.SI.Prefixes
   ) where
 
-import Data.Dimensions.SI.Base hiding (Length, Mass, Time, Current, Temperature, AmountOfSubstance, LuminousIntensity)
 import Data.Dimensions.SI.Units
 import Data.Dimensions.SI.Types
 import Data.Dimensions.SI.Prefixes

@@ -47,7 +47,7 @@ class Unit unit where
   -- The global base unit of length is meter, and 1 Foot = 0.3048 meter. 
   --       
   -- Implementations should /never/ examine their argument!       
-  conversionRatio :: Fractional f => unit -> f
+  conversionRatio :: unit -> Rational
 
 
 -- Abbreviation for creating a Dim (defined here to avoid a module cycle)
@@ -63,9 +63,8 @@ type MkGenDim dim lcsu n = Dim (DimSpecsOf dim) lcsu n
 
 
 
-
 class UnitSpec (units :: [DimSpec *]) where
-  conversionRatioSpec :: Fractional f => Proxy units -> f
+  conversionRatioSpec :: Proxy units -> Rational
 
 instance UnitSpec '[] where
   conversionRatioSpec _ = 1
