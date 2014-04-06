@@ -121,22 +121,20 @@ infix 5 #
 --
 --   > height :: Length
 --   > height = dimOf 2.0 Meter
-dimOf :: forall unit dim lcsu n.
+dimOf :: forall unit lcsu n.
          ( Unit unit
-         , UnitSpec (LookupList dim lcsu)
-         , DimOfUnit unit @~ dim
+         , UnitSpec (LookupList (DimOfUnit unit) lcsu)
          , Fractional n )
-      => n -> unit -> Dim dim lcsu n
+      => n -> unit -> Dim (DimOfUnit unit) lcsu n
 dimOf d u = Dim (d * conversionRatio u
-                   / conversionRatioSpec (Proxy :: Proxy (LookupList dim lcsu)))
+                   / conversionRatioSpec (Proxy :: Proxy (LookupList (DimOfUnit unit) lcsu)))
 
 infixr 9 %
 -- | Infix synonym for 'dimOf'
 (%) :: ( Unit unit
-       , UnitSpec (LookupList dim lcsu)
-       , DimOfUnit unit @~ dim
+       , UnitSpec (LookupList (DimOfUnit unit) lcsu)
        , Fractional n )
-    => n -> unit -> Dim dim lcsu n
+    => n -> unit -> Dim (DimOfUnit unit) lcsu n
 (%) = dimOf
 
 -- | The number 1, expressed as a unitless dimensioned quantity.
