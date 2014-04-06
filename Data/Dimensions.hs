@@ -71,7 +71,7 @@ module Data.Dimensions (
   Unit(type DimOfUnit, conversionRatio), MkDim, MkGenDim, 
 
   -- * Scalars, the only built-in unit
-  Number(..), Scalar, scalar,
+  Dimensionless(..), Number(..), Scalar, scalar,
 
   -- * Type-level integers
   Z(..), Succ, Pred, type (#+), type (#-), type (#*), type (#/), NegZ,
@@ -155,6 +155,14 @@ dim (Dim x) = Dim x
 -------------------------------------------------------------
 --- "Number" unit -------------------------------------------
 -------------------------------------------------------------
+
+-- | The dimension for the dimensionless quantities.
+-- It is also called "quantities of dimension one", but
+-- @One@ is confusing with the type-level integer One.
+data Dimensionless = Dimensionless
+instance Dimension Dimensionless where
+  type GlobalBaseUnit Dimensionless = Number
+  type DimSpecsOf Dimensionless = '[]
 
 -- | The unit for unitless dimensioned quantities
 data Number = Number -- the unit for unadorned numbers

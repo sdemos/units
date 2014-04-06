@@ -15,9 +15,11 @@
 module Data.Dimensions.SI.Types where
 
 import Data.Dimensions
+import Data.Dimensions.SI.Base
 import Data.Dimensions.SI.Units
 import Data.Dimensions.SI.Prefixes ( Kilo )
 import qualified Data.Dimensions.SI.Dims as D
+import qualified Data.Dimensions.SI.Base as D
 
 -- defined here to avoid a module dependency
 type SI = MkLCSU '[ (D.Length, Meter)
@@ -25,8 +27,8 @@ type SI = MkLCSU '[ (D.Length, Meter)
                   , (D.Time, Second)
                   , (D.Current, Ampere)
                   , (D.Temperature, Kelvin)
-                  , (D.Quantity, Mole)
-                  , (D.Luminosity, Lumen)
+                  , (D.AmountOfSubstance, Mole)
+                  , (D.LuminousIntensity, Candela)
                   ]
 
 type Length              = MkDim D.Length              SI
@@ -34,8 +36,8 @@ type Mass                = MkDim D.Mass                SI
 type Time                = MkDim D.Time                SI
 type Current             = MkDim D.Current             SI
 type Temperature         = MkDim D.Temperature         SI
-type Quantity            = MkDim D.Quantity            SI
-type Luminosity          = MkDim D.Luminosity          SI
+type Quantity            = MkDim D.AmountOfSubstance   SI
+type Luminosity          = MkDim D.LuminousIntensity   SI
 
 type Area                = MkDim D.Area                SI
 type Volume              = MkDim D.Volume              SI
@@ -62,7 +64,6 @@ type Conductance         = MkDim D.Conductance         SI
 type MagneticFlux        = MkDim D.MagneticFlux        SI
 type MagneticFluxDensity = MkDim D.MagneticFluxDensity SI
 type Inductance          = MkDim D.Inductance          SI
-type LuminousFlux        = MkDim D.LuminousFlux        SI
 type Illuminance         = MkDim D.Illuminance         SI
 type Kerma               = MkDim D.Kerma               SI
 type CatalyticActivity   = MkDim D.CatalyticActivity   SI

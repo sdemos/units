@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeFamilies, TypeOperators #-}
+{-# LANGUAGE TypeFamilies, TypeOperators, UndecidableInstances #-}
 
 -----------------------------------------------------------------------------
 -- |
@@ -19,15 +19,18 @@
 module Data.Dimensions.SI.Units where
 
 import Data.Dimensions
+import Data.Dimensions.Units
 import Data.Dimensions.SI.Base
-
+import Data.Proxy
 
 data Hertz = Hertz
 instance Unit Hertz where
-  type BaseUnit Hertz = Number :/ Second
+  type DimOfUnit Hertz = DimSpecsOf (Number :/ Second)
+  conversionRatio _ = conversionRatio (Number :/ Second)
 instance Show Hertz where
   show _ = "Hz"
 
+{-
 data Newton = Newton
 instance Unit Newton where
   type BaseUnit Newton = Meter :* Gram :/ (Second :^ Two)
@@ -137,3 +140,4 @@ instance Unit Katal where
 instance Show Katal where
   show _ = "kat"
 
+-}

@@ -15,6 +15,7 @@
 module Data.Dimensions.SI.Dims where
 
 import Data.Dimensions
+import Data.Dimensions.SI.Base
 
 type Area                = Length            :^ Two
 type Volume              = Length            :^ Three
@@ -26,8 +27,8 @@ type SurfaceDensity      = Mass              :/ Area
 type SpecificVolume      = Volume            :/ Mass
 type CurrentDensity      = Current           :/ Area
 type MagneticStrength    = Current           :/ Length
-type Concentration       = Quantity          :/ Volume
-type Luminance           = Luminosity        :/ Area
+type Concentration       = AmountOfSubstance :/ Volume
+type Luminance           = LuminousIntensity :/ Area
 
 type Frequency           = Time              :^ MOne
 type Force               = Mass              :* Acceleration
@@ -42,9 +43,8 @@ type Conductance         = Current           :/ ElectricPotential
 type MagneticFlux        = ElectricPotential :* Time
 type MagneticFluxDensity = MagneticFlux      :/ Area
 type Inductance          = MagneticFlux      :/ Current
-type LuminousFlux        = Luminosity
-type Illuminance         = Luminosity        :/ Area
+type Illuminance         = LuminousIntensity :/ Area
 type Kerma               = Area              :/ (Time :^ Two)
-type CatalyticActivity   = Quantity          :/ Time
+type CatalyticActivity   = AmountOfSubstance :/ Time
 
 type Momentum            = Mass              :* Velocity
