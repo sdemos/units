@@ -127,9 +127,8 @@ dimOf :: forall unit lcsu n.
          , UnitSpec (LookupList (DimOfUnit unit) lcsu)
          , Fractional n )
       => n -> unit -> Dim (DimOfUnit unit) lcsu n
-dimOf d u = Dim $ d * fromRational
-  ( conversionRatio u
-  / conversionRatioSpec (Proxy :: Proxy (LookupList (DimOfUnit unit) lcsu)))
+dimOf d u = Dim $ d / fromRational
+  ( conversionRatioSpec (Proxy :: Proxy (LookupList (DimOfUnit unit) lcsu))  / conversionRatio u)
 
 infixr 9 %
 -- | Infix synonym for 'dimOf'
