@@ -68,8 +68,7 @@ module Data.Dimensions (
   Dimension, MkLCSU,
 
   -- * Creating new units
-  Unit(type BaseUnit, conversionRatio), MkDim, MkGenDim, 
-  Canonical, Compatible,
+  Unit(type DimOfUnit, conversionRatio), MkDim, MkGenDim, 
 
   -- * Scalars, the only built-in unit
   Number(..), Scalar, scalar,
@@ -102,18 +101,18 @@ import Data.Proxy
 --   > inMeters x = dimIn x Meter
 dimIn :: forall unit dim lcsu n.
          ( Unit unit
-         , UnitSpec (LookupList dim lcsu)
-         , UnitSpecsOf unit *~ LookupList dim lcsu
+         , UnitSpec (LookupList dim lcsu)      
+         , DimOfUnit unit @~ dim 
          , Fractional n )
       => Dim dim lcsu n -> unit -> n
-dimIn (Dim val) u = val * canonicalConvRatioSpec (Proxy :: Proxy (LookupList dim lcsu))
-                        / canonicalConvRatio u
+dimIn (Dim val) u = val * conversionRatioSpec (Proxy :: Proxy (LookupList dim lcsu))
+                        / conversionRatio u
 
 infix 5 #
 -- | Infix synonym for 'dimIn'
 (#) :: ( Unit unit
-       , UnitSpec (LookupList dim lcsu)
-       , UnitSpecsOf unit *~ LookupList dim lcsu
+       , UnitSpec (LookupList dim lcsu)      
+       , DimOfUnit unit @~ dim 
        , Fractional n )
     => Dim dim lcsu n -> unit -> n
 (#) = dimIn
@@ -125,17 +124,17 @@ infix 5 #
 dimOf :: forall unit dim lcsu n.
          ( Unit unit
          , UnitSpec (LookupList dim lcsu)
-         , UnitSpecsOf unit *~ LookupList dim lcsu
+         , DimOfUnit unit @~ dim
          , Fractional n )
       => n -> unit -> Dim dim lcsu n
-dimOf d u = Dim (d * canonicalConvRatio u
-                   / canonicalConvRatioSpec (Proxy :: Proxy (LookupList dim lcsu)))
+dimOf d u = Dim (d * conversionRatio u
+                   / conversionRatioSpec (Proxy :: Proxy (LookupList dim lcsu)))
 
 infixr 9 %
 -- | Infix synonym for 'dimOf'
 (%) :: ( Unit unit
        , UnitSpec (LookupList dim lcsu)
-       , UnitSpecsOf unit *~ LookupList dim lcsu
+       , DimOfUnit unit @~ dim
        , Fractional n )
     => n -> unit -> Dim dim lcsu n
 (%) = dimOf
@@ -160,8 +159,8 @@ dim (Dim x) = Dim x
 -- | The unit for unitless dimensioned quantities
 data Number = Number -- the unit for unadorned numbers
 instance Unit Number where
-  type BaseUnit Number = Canonical
-  type UnitSpecsOf Number = '[]
+  type DimOfUnit Number = '[]
+  conversionRatio Number = 1
 
 -- | The type of unitless dimensioned quantities
 -- This is an instance of @Num@, though Haddock doesn't show it.

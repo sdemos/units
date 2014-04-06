@@ -16,27 +16,6 @@ module Data.Dimensions.SI.Dims where
 
 import Data.Dimensions
 
-data Length = Length
-instance Dimension Length
-
-data Mass = Mass
-instance Dimension Mass
-
-data Time = Time
-instance Dimension Time
-
-data Current = Current
-instance Dimension Current
-
-data Temperature = Temperature
-instance Dimension Temperature
-
-data Quantity = Quantity
-instance Dimension Quantity
-
-data Luminosity = Luminosity
-instance Dimension Luminosity
-
 type Area                = Length            :^ Two
 type Volume              = Length            :^ Three
 type Velocity            = Length            :/ Time

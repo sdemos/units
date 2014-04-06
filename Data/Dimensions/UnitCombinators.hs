@@ -26,16 +26,14 @@ data u1 :* u2 = u1 :* u2
 
 instance (Dimension d1, Dimension d2) => Dimension (d1 :* d2) where
   type DimSpecsOf (d1 :* d2) = (DimSpecsOf d1) @+ (DimSpecsOf d2)
-
+  type GlobalBaseUnit (d1 :* d2) = (GlobalBaseUnit d1) :* (GlobalBaseUnit d2)
+    
 instance (Unit u1, Unit u2) => Unit (u1 :* u2) where
 
   -- we override the default conversion lookup behavior
-  type BaseUnit (u1 :* u2) = Canonical
-  conversionRatio _ = undefined -- this should never be called
-
-  type UnitSpecsOf (u1 :* u2) = (UnitSpecsOf u1) @+ (UnitSpecsOf u2)
-  canonicalConvRatio _ = canonicalConvRatio (undefined :: u1) *
-                         canonicalConvRatio (undefined :: u2)
+  type DimOfUnit (u1 :* u2) = (DimOfUnit u1) @+ (DimOfUnit u2)
+  conversionRatio _ = conversionRatio (undefined :: u1) *
+                      conversionRatio (undefined :: u2)
 
 infixl 7 :/
 -- | Divide two units to get another unit
@@ -43,13 +41,12 @@ data u1 :/ u2 = u1 :/ u2
 
 instance (Dimension d1, Dimension d2) => Dimension (d1 :/ d2) where
   type DimSpecsOf (d1 :/ d2) = (DimSpecsOf d1) @- (DimSpecsOf d2)
+  type GlobalBaseUnit (d1 :/ d2) = (GlobalBaseUnit d1) :/ (GlobalBaseUnit d2)
 
 instance (Unit u1, Unit u2) => Unit (u1 :/ u2) where
-  type BaseUnit (u1 :/ u2) = Canonical
-  conversionRatio _ = undefined -- this should never be called
-  type UnitSpecsOf (u1 :/ u2) = (UnitSpecsOf u1) @- (UnitSpecsOf u2)
-  canonicalConvRatio _ = canonicalConvRatio (undefined :: u1) /
-                         canonicalConvRatio (undefined :: u2)
+  type DimOfUnit (u1 :/ u2) = (DimOfUnit u1) @- (DimOfUnit u2)
+  conversionRatio _ = conversionRatio (undefined :: u1) /
+                      conversionRatio (undefined :: u2)
 
 infixr 8 :^
 -- | Raise a unit to a power, known at compile time
@@ -57,13 +54,11 @@ data unit :^ (power :: Z) = unit :^ Sing power
 
 instance Dimension dim => Dimension (dim :^ power) where
   type DimSpecsOf (dim :^ power) = (DimSpecsOf dim) @* power
+  type GlobalBaseUnit (dim :^ power) = (GlobalBaseUnit dim) :^ power
 
 instance (Unit unit, SingI power) => Unit (unit :^ power) where
-  type BaseUnit (unit :^ power) = Canonical
-  conversionRatio _ = undefined
-
-  type UnitSpecsOf (unit :^ power) = (UnitSpecsOf unit) @* power
-  canonicalConvRatio _ = canonicalConvRatio (undefined :: unit) ^^ (szToInt (sing :: Sing power))
+  type DimOfUnit (unit :^ power) = (DimOfUnit unit) @* power
+  conversionRatio _ = conversionRatio (undefined :: unit) ^^ (szToInt (sing :: Sing power))
 
 infixr 9 :@
 -- | Multiply a conversion ratio by some constant. Used for defining prefixes.
@@ -75,8 +70,7 @@ class UnitPrefix prefix where
   -- This function must /not/ inspect its argument.
   multiplier :: Fractional f => prefix -> f
 
-instance ( CheckCanonical unit ~ False
-         , Unit unit
+instance ( Unit unit
          , UnitPrefix prefix ) => Unit (prefix :@ unit) where
-  type BaseUnit (prefix :@ unit) = unit
-  conversionRatio _ = multiplier (undefined :: prefix)
+  type DimOfUnit (prefix :@ unit) = DimOfUnit unit
+  conversionRatio _ = multiplier (undefined :: prefix) * conversionRatio (undefined :: unit)

@@ -19,48 +19,8 @@
 module Data.Dimensions.SI.Units where
 
 import Data.Dimensions
+import Data.Dimensions.SI.Base
 
-data Meter = Meter
-instance Unit Meter where
-  type BaseUnit Meter = Canonical
-instance Show Meter where
-  show _ = "m"
-
-data Gram = Gram
-instance Unit Gram where
-  type BaseUnit Gram = Canonical
-instance Show Gram where
-  show _ = "g"
-
-data Second = Second
-instance Unit Second where
-  type BaseUnit Second = Canonical
-instance Show Second where
-  show _ = "s"
-
-data Ampere = Ampere
-instance Unit Ampere where
-  type BaseUnit Ampere = Canonical
-instance Show Ampere where
-  show _ = "A"
-
-data Kelvin = Kelvin
-instance Unit Kelvin where
-  type BaseUnit Kelvin = Canonical
-instance Show Kelvin where
-  show _ = "K"
-
-data Mole = Mole
-instance Unit Mole where
-  type BaseUnit Mole = Canonical
-instance Show Mole where
-  show _ = "mol"
-
-data Candela = Candela
-instance Unit Candela where
-  type BaseUnit Candela = Canonical
-instance Show Candela where
-  show _ = "cd"
 
 data Hertz = Hertz
 instance Unit Hertz where
