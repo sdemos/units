@@ -105,7 +105,7 @@ dimIn :: forall unit dim lcsu n.
          , UnitSpec (LookupList dim lcsu)
          , UnitSpecsOf unit *~ LookupList dim lcsu
          , Fractional n )
-      => Dim n dim lcsu -> unit -> n
+      => Dim dim lcsu n -> unit -> n
 dimIn (Dim val) u = val * canonicalConvRatioSpec (Proxy :: Proxy (LookupList dim lcsu))
                         / canonicalConvRatio u
 
@@ -115,7 +115,7 @@ infix 5 #
        , UnitSpec (LookupList dim lcsu)
        , UnitSpecsOf unit *~ LookupList dim lcsu
        , Fractional n )
-    => Dim n dim lcsu -> unit -> n
+    => Dim dim lcsu n -> unit -> n
 (#) = dimIn
 
 -- | Creates a dimensioned quantity in the given unit. For example:
@@ -127,7 +127,7 @@ dimOf :: forall unit dim lcsu n.
          , UnitSpec (LookupList dim lcsu)
          , UnitSpecsOf unit *~ LookupList dim lcsu
          , Fractional n )
-      => n -> unit -> Dim n dim lcsu
+      => n -> unit -> Dim dim lcsu n
 dimOf d u = Dim (d * canonicalConvRatio u
                    / canonicalConvRatioSpec (Proxy :: Proxy (LookupList dim lcsu)))
 
@@ -137,20 +137,20 @@ infixr 9 %
        , UnitSpec (LookupList dim lcsu)
        , UnitSpecsOf unit *~ LookupList dim lcsu
        , Fractional n )
-    => n -> unit -> Dim n dim lcsu
+    => n -> unit -> Dim dim lcsu n
 (%) = dimOf
 
 -- | The number 1, expressed as a unitless dimensioned quantity.
-unity :: Num n => Dim n '[] l
+unity :: Num n => Dim '[] l n
 unity = Dim 1
 
 -- | The number 0, polymorphic in its dimension. Use of this will
 -- often require a type annotation.
-zero :: Num n => Dim n dimspec l
+zero :: Num n => Dim dimspec l n
 zero = Dim 0
 
 -- | Dimension-safe cast. See the README for more info.
-dim :: (d @~ e) => Dim n d l -> Dim n e l
+dim :: (d @~ e) => Dim d l n -> Dim e l n
 dim (Dim x) = Dim x
 
 -------------------------------------------------------------
@@ -168,5 +168,5 @@ instance Unit Number where
 type Scalar l = MkDim Number l
 
 -- | Convert a raw number into a unitless dimensioned quantity
-scalar :: n -> Dim n '[] l
+scalar :: n -> Dim '[] l n
 scalar = Dim

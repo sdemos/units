@@ -72,10 +72,10 @@ class Unit unit where
 -- unit. This uses a 'Double' for storage of the value. For example:
 --
 -- > type Length = MkDim Meter
-type MkDim dim lcsu = Dim Double (DimSpecsOf dim) lcsu
+type MkDim dim lcsu = Dim (DimSpecsOf dim) lcsu Double
 
 -- | Make a dimensioned quantity with a custom numerical type.
-type MkGenDim n dim lcsu = Dim n (DimSpecsOf dim) lcsu
+type MkGenDim dim lcsu n = Dim (DimSpecsOf dim) lcsu n
 
 -- | Is this unit a canonical unit?
 type IsCanonical (unit :: *) = CheckCanonical (BaseUnit unit)
