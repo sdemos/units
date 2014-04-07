@@ -37,7 +37,9 @@ library
                       Data.Dimensions.Poly, Data.Dimensions.Unsafe,
                       Data.Dimensions.Types,
                       Data.Dimensions.SI, Data.Dimensions.SI.Prefixes,
-                      Data.Dimensions.SI.Types, Data.Dimensions.SI.Units
+                      Data.Dimensions.SI.Types, Data.Dimensions.SI.Units,
+                      Data.Dimensions.Imperial.Units
+
 
   other-modules:      Data.Dimensions.Dim, Data.Dimensions.DimSpec,
                       Data.Dimensions.Units, Data.Dimensions.UnitCombinators,
