@@ -22,15 +22,27 @@ import Data.Type.Bool
 import Data.Proxy
 import Data.Singletons
 
+
+-- | Dummy type use just to label canonical units. It does /not/ have a
+-- 'Unit' instance.
+data Canonical
+
 -- | Class of dimensions.
 class Dimension dim where
   -- | The representation of the dimension as producs of integer powers of the base dimensions.
   type DimSpecsOf dim :: [DimSpec *]
 
 -- | Class of units. Make an instance of this class to define a new unit.
+--   Minimal complete definition: @BaseUnit@ or (@DimOfUnit@ and @conversionRatio@) .
+--       
+--   Units are either canonical or defined in terms of other units.
+--   For canonical units define @DimOfUnit@ and @conversionRatio@.
+--   For dependent units define @BaseUnit@.       
+       
 class Unit unit where
   -- | The dimension of this unit.
   type DimOfUnit unit :: [DimSpec *]
+  type DimOfUnit unit = DimOfUnit (BaseUnit unit)
 
   -- | The conversion ratio /from/ this unit /to/ the global coherent
   -- unit of the same dimension. The conversion ratio of a unit is never
@@ -48,7 +60,14 @@ class Unit unit where
   --       
   -- Implementations should /never/ examine their argument!       
   conversionRatio :: unit -> Rational
+  default conversionRatio :: (Unit (BaseUnit unit)) => unit -> Rational
+  conversionRatio _ = conversionRatio (undefined :: BaseUnit unit)
 
+  -- | The base unit of this unit: what this unit is defined in terms of.
+  -- For units that are not defined in terms of anything else, the base unit
+  -- should be 'Canonical'.
+  type BaseUnit unit :: *
+  type BaseUnit unit = Canonical
 
 -- Abbreviation for creating a Dim (defined here to avoid a module cycle)
 

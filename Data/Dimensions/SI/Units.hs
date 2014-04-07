@@ -83,7 +83,7 @@ instance Unit Hertz where
 instance Show Hertz where
   show _ = "Hz"
 
-{-
+
 data Newton = Newton
 instance Unit Newton where
   type BaseUnit Newton = Meter :* Gram :/ (Second :^ Two)
@@ -193,4 +193,3 @@ instance Unit Katal where
 instance Show Katal where
   show _ = "kat"
 
--}
