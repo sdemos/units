@@ -22,6 +22,7 @@ import Data.Proxy (Proxy(..))
 import Data.List
 import Data.Singletons (Sing, sing, SingI)
 
+import Data.Dimensions ((#))
 import Data.Dimensions.DimSpec
 import Data.Dimensions.Dim
 import Data.Dimensions.Z
@@ -91,7 +92,7 @@ showIn ::( Unit unit
          , Show unit
          , Show n)
       => Dim dim lcsu n -> unit -> String
-showIn (Dim x) u = show x ++ " " ++ show u
+showIn x u = show (x # u) ++ " " ++ show u
 
 -- enable showing of units with prefixes:
 instance (Show prefix, Show unit) => Show (prefix :@ unit) where

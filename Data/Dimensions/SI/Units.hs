@@ -75,6 +75,12 @@ instance Show Candela where
 
 
 
+data Liter = Liter
+instance Unit Liter where
+  type DimOfUnit Liter = '[D Length Three ]
+  conversionRatio _ = 0.001
+instance Show Liter where
+  show _ = "l"
 
 data Hertz = Hertz
 instance Unit Hertz where
@@ -82,7 +88,6 @@ instance Unit Hertz where
   conversionRatio _ = conversionRatio (Number :/ Second)
 instance Show Hertz where
   show _ = "Hz"
-
 
 data Newton = Newton
 instance Unit Newton where
