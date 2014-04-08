@@ -9,11 +9,9 @@
 -- Stability   :  experimental
 -- Portability :  non-portable
 --
--- This module exports unit definitions according to the SI system of units.
--- The definitions were taken from here: <http://www.bipm.org/en/si/>.
+-- This module exports unit definitions according to the British Imperial system of units.
+-- The definitions were taken from here: <http://en.wikipedia.org/wiki/Imperial_units>.
 --
--- There is one deviation from the definition at that site: To work better
--- with prefixes, the unit of mass is 'Gram'.
 -----------------------------------------------------------------------------
 
 module Data.Dimensions.Imperial.Units where
@@ -80,6 +78,15 @@ instance Unit League where
   conversionRatio _ = 3 * conversionRatio Mile
 instance Show League where
   show _ = "lea"
+
+
+data Gallon = Gallon
+instance Unit Gallon where
+  type DimOfUnit Gallon = '[D Length Three ]
+  conversionRatio _ = 0.00454609 * conversionRatio (Meter :^ pThree)
+instance Show Gallon where
+  show _ = "gal" 
+
 
 
 data Ounce = Ounce
