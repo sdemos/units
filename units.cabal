@@ -38,6 +38,7 @@ library
                       Data.Dimensions.Types,
                       Data.Dimensions.SI, Data.Dimensions.SI.Prefixes,
                       Data.Dimensions.SI.Types, Data.Dimensions.SI.Units,
+                      Data.Dimensions.Imperial.Types,
                       Data.Dimensions.Imperial.Units
 
 
