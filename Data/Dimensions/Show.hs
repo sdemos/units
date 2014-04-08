@@ -1,4 +1,4 @@
-{-# LANGUAGE PolyKinds, DataKinds, TypeOperators, FlexibleInstances,
+{-# LANGUAGE PolyKinds, DataKinds, TypeOperators, FlexibleInstances, ConstraintKinds,
              ScopedTypeVariables, FlexibleContexts #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
@@ -16,7 +16,7 @@
 -- units.
 -----------------------------------------------------------------------------
 
-module Data.Dimensions.Show () where
+module Data.Dimensions.Show (showIn) where
 
 import Data.Proxy (Proxy(..))
 import Data.List
@@ -26,7 +26,8 @@ import Data.Dimensions.DimSpec
 import Data.Dimensions.Dim
 import Data.Dimensions.Z
 import Data.Dimensions.Map
-import Data.Dimensions.UnitCombinators ( (:@) )
+import Data.Dimensions.Units
+import Data.Dimensions.UnitCombinators ( (:@), (:*), (:/), (:^) )
 
 class ShowUnitSpec (dims :: [DimSpec *]) where
   showDims :: Proxy dims -> ([String], [String])
@@ -70,6 +71,27 @@ showDimSpec p
     build_string_helper [] = ""
     build_string_helper [s] = s
     build_string_helper (h:t) = h ++ " * " ++ build_string_helper t
+
+-- enable showing of compound units:
+instance (Show u1, Show u2) => Show (u1 :* u2) where
+  show _ = show (undefined :: u1) ++ " " ++ show (undefined :: u2)
+
+instance (Show u1, Show u2) => Show (u1 :/ u2) where
+  show _ = show (undefined :: u1) ++ "/" ++ show (undefined :: u2)
+
+instance (Show u1, SingI power )=> Show (u1 :^ (power :: Z)) where
+  show _ = show (undefined :: u1) ++ "^" ++ show (szToInt (sing :: Sing power))
+
+infix 1 `showIn`
+
+showIn ::( Unit unit
+         , UnitSpec (LookupList dim lcsu)      
+         , DimOfUnit unit @~ dim 
+         , Fractional n
+         , Show unit
+         , Show n)
+      => Dim dim lcsu n -> unit -> String
+showIn (Dim x) u = show x ++ " " ++ show u
 
 -- enable showing of units with prefixes:
 instance (Show prefix, Show unit) => Show (prefix :@ unit) where

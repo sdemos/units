@@ -23,9 +23,9 @@ gasolineDensity = 7.29 % (Pound :/ Gallon)
 
 main :: IO ()
 main = do
-  putStrLn $ show fromPUtoWH
-  putStrLn $ show fuelEfficiency
-  putStrLn $ show gasolineDensity
+  putStrLn $ fromPUtoWH `showIn` Mile
+  putStrLn $ fuelEfficiency `showIn` Mile :/ Gallon
+  putStrLn $ gasolineDensity `showIn` Pound :/ Gallon
 
 {-
 module Main where
