@@ -1,3 +1,12 @@
+Version 2.2
+-----------
+
+* Some types of arithmetic operations are different to aid in type inference.
+For example, `*|` does not normalize its dimension list.
+
+* The types of the `derive...` TH functions now allow for deriving units
+based on composite dimensions/units.
+
 Version 2.1
 -----------
 
@@ -7,7 +16,7 @@ Version 2.1
 
       g = 9.8 % [si| m/s^2 |]
 
-  See `Data.Metrology.UnitParser`.
+  See `Data.Metrology.Parser`.
 
 * Now, `Data.Metrology` exports operators that work with the default
   LCSU. Use `Data.Metrology.Poly` to get the old, more flexible operators.
@@ -15,9 +24,8 @@ Version 2.1
 * Moved `showIn` from `Data.Metrology.Show` to `Data.Metrology.Poly`. This
   allows users to import `showIn` without a `Show` instance for quantities.
 
-* Now, numeric operations are based on vector spaces, as implemented in
-  the `vector-space` library. This changes the type signature of a few functions,
-  and users writing their own combinators may need to update.
+* Numeric operations are available based on vector spaces, as implemented in
+  the `vector-space` library. See `Data.Metrology.Vector`.
 
 * Some documentation cleanup.
 
@@ -25,6 +33,13 @@ Version 2.1
   allows for easier instance declarations for quantities.
 
 * New class `Quantity` that allows for easy conversions with non-`units` types.
+
+* A few bugfixes.
+
+* The `Eq` and `Ord` instances now work over any quantity, not just dimensionless ones.
+
+* New functions in `Data.Metrology.TH` that define `Dimension` and `Unit` instances
+  for you.
 
 Version 2.0
 -----------
